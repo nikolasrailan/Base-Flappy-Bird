@@ -42,7 +42,7 @@ let pontuacao = 0; // Pontuação do jogador
 let aposta = 0;
 let porcentagem = 0;
 let quantiaGanha = 0;
-
+let velocidade = 2500;
 
 
 window.onload = function () {
@@ -80,21 +80,24 @@ window.onload = function () {
         event.preventDefault();
         aposta = document.querySelector('#aposta').value;
 
-        porcentagem = aposta * 0.3;
+        porcentagem = aposta * 0.01;
 
-        console.log("aposta");
-        console.log(aposta);
+        if(aposta >= 20 && aposta < 60){
+            velocidade = 1500;
+        }else if (aposta >= 60 && aposta < 100){
+            velocidade = 1400;
+        }else if(aposta >= 100 && aposta < 120){
+            velocidade = 1300
+        }else if(aposta >= 120){
+            velocidade = 1100;
+        }
 
-        console.log("porcetagem");
-        console.log(porcentagem);
-        
+
 
         requestAnimationFrame(atualizar);
+        console.log(velocidade);
+        setInterval(gerarCanos, velocidade);
 
-    // Gera novos canos a cada 1.5 segundos usando setInterval
-        setInterval(gerarCanos, 1500);
-
-    // Adiciona um ouvinte de evento para responder às teclas pressionadas
         document.addEventListener("keydown", moverPassaro);
         
     }
@@ -170,7 +173,7 @@ function atualizar() {
     contexto.fillStyle = "white";
     contexto.font = "45px sans-serif";
     contexto.fillText("R$: ", 5, 45);
-    contexto.fillText(parseFloat(quantiaGanha), 80, 45);
+    contexto.fillText(parseFloat(quantiaGanha).toFixed(2), 80, 45);
     // Pontuação
     contexto.fillStyle = "white";
     contexto.font = "45px sans-serif";
