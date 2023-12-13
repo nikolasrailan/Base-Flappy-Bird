@@ -40,6 +40,10 @@ let pontuacao = 0; // Pontuação do jogador
 // Aguarda até que a página HTML seja totalmente carregada antes de executar o código
 
 let aposta = 0;
+let porcentagem = 0;
+let quantiaGanha = 0;
+
+
 
 window.onload = function () {
     // Obtém a referência do elemento do tabuleiro no HTML usando o ID "tabuleiro"
@@ -75,24 +79,28 @@ window.onload = function () {
     form.onsubmit = (event) => {
         event.preventDefault();
         aposta = document.querySelector('#aposta').value;
-        loop();
+
+        porcentagem = aposta * 0.3;
+
+        console.log("aposta");
+        console.log(aposta);
+
+        console.log("porcetagem");
+        console.log(porcentagem);
+        
+
+        requestAnimationFrame(atualizar);
+
+    // Gera novos canos a cada 1.5 segundos usando setInterval
+        setInterval(gerarCanos, 1500);
+
+    // Adiciona um ouvinte de evento para responder às teclas pressionadas
+        document.addEventListener("keydown", moverPassaro);
         
     }
 
     //iniciar.addEventListener('click', loop)
     
-}
-
-function loop(){
-    requestAnimationFrame(atualizar);
-
-    // Gera novos canos a cada 1.5 segundos usando setInterval
-    setInterval(gerarCanos, 2500);
-
-    // Adiciona um ouvinte de evento para responder às teclas pressionadas
-    document.addEventListener("keydown", moverPassaro);
-
-
 }
  
 function moverPassaro(evento) {
@@ -107,6 +115,8 @@ function moverPassaro(evento) {
 function atualizar() {
     // Solicita ao navegador que chame novamente a função atualizar na próxima renderização
     requestAnimationFrame(atualizar);
+
+
 
     if (jogoEncerrado) {
         contexto.fillText("FIM DE JOGO", 50, 60);
@@ -126,6 +136,8 @@ function atualizar() {
     // Desenha a imagem do pássaro na nova posição
     contexto.drawImage(imagemPassaro, passaro.x, passaro.y, passaro.largura, passaro.altura);
 
+
+
     // Itera sobre os canos presentes no arrayCanos
     for (let i = 0; i < arrayCanos.length; i++) {
         let cano = arrayCanos[i];
@@ -139,7 +151,9 @@ function atualizar() {
         // Verifica se o pássaro passou pelo cano
         if (!cano.passou && passaro.x > cano.x + cano.largura) {
             pontuacao += 0.5; // Incrementa a pontuação por meio ponto
+            quantiaGanha += porcentagem;
             cano.passou = true; // Marca que o pássaro já passou por esse cano
+
         }
 
         // Verifica se há colisão entre o pássaro e o cano
@@ -153,12 +167,15 @@ function atualizar() {
         arrayCanos.shift(); // Remove o primeiro elemento do array de canos
     }
 
+    contexto.fillStyle = "white";
+    contexto.font = "45px sans-serif";
+    contexto.fillText("R$: ", 5, 45);
+    contexto.fillText(parseFloat(quantiaGanha), 80, 45);
     // Pontuação
     contexto.fillStyle = "white";
     contexto.font = "45px sans-serif";
-    contexto.fillText(pontuacao, 5, 45);
-
-
+    contexto.fillText(pontuacao, 5, 85);
+    
 
 }
 
