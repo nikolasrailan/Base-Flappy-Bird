@@ -39,6 +39,7 @@ let pontuacao = 0; // Pontuação do jogador
 
 // Aguarda até que a página HTML seja totalmente carregada antes de executar o código
 
+let aposta = 0;
 
 window.onload = function () {
     // Obtém a referência do elemento do tabuleiro no HTML usando o ID "tabuleiro"
@@ -73,7 +74,9 @@ window.onload = function () {
 
     form.onsubmit = (event) => {
         event.preventDefault();
+        aposta = document.querySelector('#aposta').value;
         loop();
+        
     }
 
     //iniciar.addEventListener('click', loop)
