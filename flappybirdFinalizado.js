@@ -38,6 +38,8 @@ let jogoEncerrado = false; // Indica se o jogo está encerrado
 let pontuacao = 0; // Pontuação do jogador
 
 // Aguarda até que a página HTML seja totalmente carregada antes de executar o código
+
+
 window.onload = function () {
     // Obtém a referência do elemento do tabuleiro no HTML usando o ID "tabuleiro"
     tabuleiro = document.getElementById("tabuleiro");
@@ -66,21 +68,35 @@ window.onload = function () {
     imagemCanoInferior.src = "assets/cano-baixo.png";
 
     // Inicia o loop de atualização do jogo usando requestAnimationFrame
+    const iniciar = document.querySelector('#inicia');
+    const form = document.querySelector('form');
+
+    form.onsubmit = (event) => {
+        event.preventDefault();
+        loop();
+    }
+
+    //iniciar.addEventListener('click', loop)
+    
+}
+
+function loop(){
     requestAnimationFrame(atualizar);
 
     // Gera novos canos a cada 1.5 segundos usando setInterval
-    setInterval(gerarCanos, 1500);
+    setInterval(gerarCanos, 2500);
 
     // Adiciona um ouvinte de evento para responder às teclas pressionadas
     document.addEventListener("keydown", moverPassaro);
 
-}
 
+}
+ 
 function moverPassaro(evento) {
     // Verifica se a tecla pressionada é a barra de espaço, seta para cima ou tecla X
     if (evento.code == "Space" || evento.code == "ArrowUp" || evento.code == "KeyX") {
         // Ajusta a velocidade vertical para simular um salto
-        velocidadeY = -6;
+        velocidadeY = -8;
 
     }
 }
